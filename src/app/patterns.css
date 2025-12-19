@@ -1,0 +1,20 @@
+.pattern-dots {
+  background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+.pattern-cross {
+  background-image: linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%), linear-gradient(-45deg, rgba(0,0,0,0.1) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.1) 75%), linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.1) 75%);
+  background-size: 20px 20px;
+}
+.pattern-checkers {
+  background-color: #eee;
+  background-image: linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0.1)), 
+  linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0.1));
+  background-position: 0 0, 10px 10px;
+  background-size: 20px 20px;
+
+}
+.pattern-zigzag {
+  background-image: linear-gradient(135deg, rgba(0,0,0,0.1) 25%, transparent 25%), linear-gradient(225deg, rgba(0,0,0,0.1) 25%, transparent 25%), linear-gradient(315deg, rgba(0,0,0,0.1) 25%, transparent 25%), linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%);
+  background-size: 20px 20px;
+}
