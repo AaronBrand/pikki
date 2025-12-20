@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import FoodCard from './FoodCard';
 import { generateFoodData } from '../app/actions';
 import { db } from '../lib/firebase';
-import { collection, addDoc, onSnapshot, query, orderBy, Timestamp, where } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, where, Timestamp } from 'firebase/firestore';
 
 export interface Food {
   id: string;
@@ -28,10 +28,10 @@ const FoodGenerator: React.FC = () => {
     setChildId(storedChildId);
 
     if (storedChildId) {
+      // Removed orderBy to avoid needing a composite index immediately
       const q = query(
         collection(db, "foods"), 
-        where("childId", "==", storedChildId),
-        orderBy("createdAt", "desc")
+        where("childId", "==", storedChildId)
       );
       
       const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -39,6 +39,14 @@ const FoodGenerator: React.FC = () => {
           id: doc.id,
           ...doc.data()
         })) as Food[];
+        
+        // Sort client-side
+        foodsData.sort((a, b) => {
+          const timeA = a.createdAt?.toMillis() || 0;
+          const timeB = b.createdAt?.toMillis() || 0;
+          return timeB - timeA;
+        });
+
         setFoods(foodsData);
       });
 
@@ -59,7 +67,6 @@ const FoodGenerator: React.FC = () => {
     const data = await generateFoodData(name);
     
     // Generate AI Image URL (using Pollinations.ai)
-    // Updated prompt for stylized but not cartoon images, no faces
     const encodedName = encodeURIComponent(`${name} food stylized illustration minimal no face`);
     const imageUrl = `https://image.pollinations.ai/prompt/${encodedName}`;
 
