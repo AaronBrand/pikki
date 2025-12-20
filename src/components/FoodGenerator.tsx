@@ -67,7 +67,8 @@ const FoodGenerator: React.FC = () => {
     const data = await generateFoodData(name);
     
     // Generate AI Image URL (using Pollinations.ai)
-    const encodedName = encodeURIComponent(`${name} food stylized illustration minimal no face`);
+    // Updated prompt for photo-realistic image
+    const encodedName = encodeURIComponent(`${name} food delicious photo realistic 8k highly detailed cinematic lighting`);
     const imageUrl = `https://image.pollinations.ai/prompt/${encodedName}`;
 
     try {
