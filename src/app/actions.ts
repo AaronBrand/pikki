@@ -15,13 +15,13 @@ export async function generateFoodData(foodName: string) {
     };
   }
 
-  // Updated to use gemini-1.5-flash as gemini-pro might be deprecated or unavailable
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+  // Updated to use gemini-2.0-flash-exp as requested
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
 
   const prompt = `
     For the food item "${foodName}", provide:
     1. A health rating from 1 to 5 (integer), where 5 is very healthy and 1 is unhealthy.
-    2. A nutrition note for kids (about 100 words). Explain clearly and simply what health benefits the food brings (like vitamins, energy, strong bones) or if it should be eaten in moderation (like too much sugar or salt) and why. Make it engaging and easy to understand.
+    2. A nutrition note for kids (about 60 words). Explain clearly and simply what health benefits the food brings (like vitamins, energy, strong bones) or if it should be eaten in moderation (like too much sugar or salt) and why. Make it engaging and easy to understand.
     
     Return the result as a JSON object with keys "healthRating" (number) and "nutritionNote" (string).
     Do not include markdown formatting.
