@@ -2,3 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 @import './patterns.css';
+
+@font-face {
+  font-family: 'Comic Sans MS';
+  src: local('Comic Sans MS');
+}
+
+.font-comic {
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', sans-serif;
+}

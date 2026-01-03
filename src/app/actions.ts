@@ -12,6 +12,7 @@ export async function generateFoodData(foodName: string) {
     return {
       nutritionNote: `A yummy treat called ${foodName}. It's important to eat a balanced diet! (Please set a valid GOOGLE_API_KEY in .env.local)`,
       healthRating: 3,
+      imagePrompt: `${foodName} food delicious photo realistic 8k highly detailed cinematic lighting`
     };
   }
 
@@ -22,8 +23,9 @@ export async function generateFoodData(foodName: string) {
     For the food item "${foodName}", provide:
     1. A health rating from 1 to 5 (integer), where 5 is very healthy and 1 is unhealthy.
     2. A nutrition note for kids (about 60 words). Explain clearly and simply what health benefits the food brings (like vitamins, energy, strong bones) or if it should be eaten in moderation (like too much sugar or salt) and why. Make it engaging and easy to understand.
+    3. A short, descriptive image prompt (under 15 words) to generate a delicious, kid-friendly, photo-realistic image of this food. Focus on making it look appetizing.
     
-    Return the result as a JSON object with keys "healthRating" (number) and "nutritionNote" (string).
+    Return the result as a JSON object with keys "healthRating" (number), "nutritionNote" (string), and "imagePrompt" (string).
     Do not include markdown formatting.
   `;
 
@@ -42,7 +44,8 @@ export async function generateFoodData(foodName: string) {
     
     return {
       nutritionNote: data.nutritionNote,
-      healthRating: data.healthRating
+      healthRating: data.healthRating,
+      imagePrompt: data.imagePrompt
     };
   } catch (error) {
     console.error('Error generating food data:', error);
@@ -50,6 +53,7 @@ export async function generateFoodData(foodName: string) {
     return {
       nutritionNote: `Error generating data: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your API key and quota.`,
       healthRating: 3,
+      imagePrompt: `${foodName} food delicious photo realistic 8k highly detailed cinematic lighting`
     };
   }
 }

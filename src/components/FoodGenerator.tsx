@@ -15,6 +15,7 @@ export interface Food {
   category: string;
   createdAt?: Timestamp;
   childId: string;
+  promise?: string;
 }
 
 const FoodGenerator: React.FC = () => {
@@ -63,12 +64,13 @@ const FoodGenerator: React.FC = () => {
     setIsLoading(true);
     const name = inputName.trim();
     
-    // Generate AI data
+    // Generate AI data and image prompt
     const data = await generateFoodData(name);
     
     // Generate AI Image URL (using Pollinations.ai)
-    // Updated prompt for photo-realistic image
-    const encodedName = encodeURIComponent(`${name} food delicious photo realistic 8k highly detailed cinematic lighting`);
+    // Use the AI-generated image prompt if available, otherwise fall back to the default
+    const promptToUse = data.imagePrompt || `${name} food delicious photo realistic 8k highly detailed cinematic lighting`;
+    const encodedName = encodeURIComponent(promptToUse);
     const imageUrl = `https://image.pollinations.ai/prompt/${encodedName}`;
 
     try {
@@ -99,31 +101,48 @@ const FoodGenerator: React.FC = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto">
-      <div className="mb-12 flex justify-center">
-        <form onSubmit={handleGenerate} className="flex gap-4 w-full max-w-lg">
+      <div className="mb-12 flex flex-col items-center">
+        <h2 className="text-3xl font-bold text-center text-orange-500 mb-6 font-comic">What food do you want to try?</h2>
+        <form onSubmit={handleGenerate} className="flex gap-4 w-full max-w-lg relative">
           <input
             type="text"
             value={inputName}
             onChange={(e) => setInputName(e.target.value)}
-            placeholder="Enter a food name (e.g., Taco)"
-            className="flex-1 p-4 rounded-xl border-2 border-orange-300 focus:border-orange-500 focus:outline-none text-lg shadow-inner"
+            placeholder="e.g. Broccoli, Sushi, Dragon Fruit..."
+            className="flex-1 p-4 pr-12 rounded-full border-4 border-orange-300 focus:border-orange-500 focus:outline-none text-xl font-bold text-gray-700 shadow-inner placeholder-orange-200"
             disabled={isLoading}
           />
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-orange-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-orange-500 text-white px-8 py-4 rounded-full font-bold text-xl hover:bg-orange-600 transition-all shadow-[0_4px_0_rgb(194,65,12)] active:shadow-none active:translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
-            {isLoading ? 'Cooking...' : 'Add Food'}
+            {isLoading ? (
+              <>
+                <span className="animate-spin">🍳</span> Cooking...
+              </>
+            ) : (
+              <>
+                <span>✨</span> Add Food
+              </>
+            )}
           </button>
         </form>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-4">
         {foods.map(food => (
           <FoodCard key={food.id} food={food} />
         ))}
       </div>
+      
+      {foods.length === 0 && (
+        <div className="text-center p-12 opacity-50">
+          <div className="text-6xl mb-4">🍽️</div>
+          <p className="text-2xl font-bold text-gray-400">Your plate is empty!</p>
+          <p className="text-gray-400">Add some foods you want to try above.</p>
+        </div>
+      )}
     </div>
   );
 };
