@@ -1,1 +1,18 @@
-GOOGLE_API_KEY: AIzaSyCArKP2GlnCpc2Hl3A3qBkRK_e5Gv7qH6g
+# The branch from your repository that will be deployed to production.
+run:
+  branch: main
+
+# Enable automated preview deployments for all other branches.
+previews: true
+
+# Environment variables configuration.
+# These are securely provided to your application during both the build and run phases.
+env:
+  # --- Application URL ---
+  # This maps the App Hosting system variable to a conventional name.
+  # It will be 'https://barkup.dog' in production and the preview URL in previews.
+  - variable: GOOGLE_API_KEY
+    value: AIzaSyCArKP2GlnCpc2Hl3A3qBkRK_e5Gv7qH6g
+    availability:
+      - BUILD
+      - RUNTIME
